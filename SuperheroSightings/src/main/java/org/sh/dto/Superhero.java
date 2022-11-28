@@ -1,11 +1,26 @@
 package org.sh.dto;
 
+import java.util.Objects;
+
 public class Superhero {
 
     private int id;
     private String name;
     private String description;
     private Superpower superpower;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Superhero)) return false;
+        Superhero superhero = (Superhero) o;
+        return getId() == superhero.getId() && getName().equals(superhero.getName()) && Objects.equals(getDescription(), superhero.getDescription()) && getSuperpower().equals(superhero.getSuperpower());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDescription(), getSuperpower());
+    }
 
     public Superhero() {
     }
