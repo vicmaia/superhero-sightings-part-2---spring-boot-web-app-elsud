@@ -1,5 +1,7 @@
 package org.sh.dto;
 
+import java.util.Objects;
+
 public class Superpower {
 
     private int id;
@@ -32,5 +34,18 @@ public class Superpower {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Superpower)) return false;
+        Superpower that = (Superpower) o;
+        return getId() == that.getId() && getName().equals(that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 }
