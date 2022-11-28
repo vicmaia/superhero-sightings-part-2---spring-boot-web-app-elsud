@@ -31,8 +31,8 @@ CREATE TABLE location (
 	name VARCHAR(40) NOT NULL,
     description VARCHAR(160),
     address VARCHAR(80) NOT NULL,
-    longitude VARCHAR(10) NOT NULL,
-    latitude VARCHAR(10) NOT NULL,
+    longitude DECIMAL(8,6) NOT NULL,
+    latitude DECIMAL(8,6) NOT NULL,
     CONSTRAINT UNIQUE (longitude, latitude)
 );
 CREATE TABLE sighting (
