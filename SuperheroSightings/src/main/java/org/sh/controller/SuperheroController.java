@@ -59,14 +59,13 @@ public class SuperheroController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateSuperhero(
-            @PathVariable int id, @RequestParam String name, @RequestParam String description,
-            @RequestParam int superpowerId) throws NotUniqueException {
-        Superpower superpower = spDao.getSuperpower(superpowerId);
+            @PathVariable int id, @RequestBody SuperheroFromRequestBody sh) throws NotUniqueException {
+        Superpower superpower = spDao.getSuperpower(sh.getSuperpowerId());
         if (superpower == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         Superhero superhero = new Superhero(
-                id, name, description, superpower.getId(), superpower.getName());
+                id, sh.getName(), sh.getDescription(), superpower);
         if (shDao.editSuperhero(superhero)) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
@@ -74,16 +73,52 @@ public class SuperheroController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Superhero> addSuperhero(
-            @RequestParam String name, @RequestParam String description,
-            @RequestParam int superpowerId) throws NotUniqueException {
-        Superpower superpower = spDao.getSuperpower(superpowerId);
+    public ResponseEntity<Superhero> addSuperhero(@RequestBody SuperheroFromRequestBody sh) throws NotUniqueException {
+        Superpower superpower = spDao.getSuperpower(sh.getSuperpowerId());
         if (superpower == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        Superhero superhero = new Superhero(
-                name, description, superpower.getId(), superpower.getName());
+        Superhero superhero = new Superhero(sh.getName(), sh.getDescription(), superpower);
         return new ResponseEntity<>(shDao.addSuperhero(superhero), HttpStatus.CREATED);
+    }
+
+    private static class SuperheroFromRequestBody {
+        private int id;
+        private String name;
+        private String description;
+        private int superpowerId;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public int getSuperpowerId() {
+            return superpowerId;
+        }
+
+        public void setSuperpowerId(int superpowerId) {
+            this.superpowerId = superpowerId;
+        }
     }
 
 }

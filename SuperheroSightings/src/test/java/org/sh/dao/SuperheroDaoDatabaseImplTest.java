@@ -156,7 +156,7 @@ public class SuperheroDaoDatabaseImplTest {
     public void editNotExistingSuperhero() {
         Superpower superpower = createSuperpower();
         Superhero superhero = new Superhero(
-                12, "name", "description", superpower.getId(), superpower.getName()
+                12, "name", "description", superpower
         );
         try {
             boolean isEdited = superheroDao.editSuperhero(superhero);

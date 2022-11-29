@@ -9,6 +9,12 @@ public class Superhero {
     private String description;
     private Superpower superpower;
 
+    public Superhero(String name, String description, Superpower superpower) {
+        this.name = name;
+        this.description = description;
+        this.superpower = superpower;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -26,12 +32,11 @@ public class Superhero {
     }
 
     public Superhero(
-            int id, String name, String description, int superpowerId, String superpowerName
-    ) {
+            int id, String name, String description, Superpower superpower) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.superpower = new Superpower(superpowerId, superpowerName);
+        this.superpower = superpower;
     }
 
     public Superhero(
