@@ -89,7 +89,7 @@ public class SightingDaoImpl implements SightingDao {
         } catch (DataAccessException ex) {
             throw new NotUniqueException("Sighting name should be unique");
         }
-        sighting.setId((Date)keyHolder.getKey().intValue());
+        sighting.setId(keyHolder.getKey().intValue());
         return sighting;
     }
 
@@ -101,15 +101,16 @@ public class SightingDaoImpl implements SightingDao {
 
     @Override
     public List<Sighting> listLastSightings(){
-        //implement
+        return jdbcTemplate.query("select * from sightings order by id desc limit 10",
+                new SightingMapper());
     }
 
     private final class SightingMapper implements RowMapper<Sighting> {
 
         @Override
         public Sighting mapRow(ResultSet resultSet, int i) throws SQLException {
-            Sighting sighting = new Sighting();
             Location location = new Location();
+            Sighting sighting = new Sighting("name", "description", location.getId(), location.getName());
             Superhero superhero = new Superhero();
 
             location.setId(resultSet.getInt("location.id"));
